@@ -19,11 +19,5 @@ const seedRow = (row: number, width: number, initial: Ecosystem) => {
     }
   }, initial)
 }
-
-export const emptyEcosystem = (): Ecosystem => ({
-  living: Set<Cell>(),
-  dead: Set<Cell>()
-})
-
 const isAlive = () => Math.round(Math.random()) === 1
 const range = (width: number): number[] => Array(width).fill(null)

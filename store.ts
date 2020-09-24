@@ -1,7 +1,7 @@
 import {configureStore, createSlice, combineReducers} from '@reduxjs/toolkit'
 import {Ecosystem} from './types'
-import {nextGeneration} from './game'
-import {seedEcosystem, emptyEcosystem} from './utils'}
+import {nextGeneration} from './set-game'
+import {seedEcosystem, emptyEcosystem} from './utils'
 
 export interface RootState {
   main: EcosystemState

@@ -39,3 +39,8 @@ const live = (cell: Cell, ecosystem: Ecosystem): Ecosystem => ({
   living: ecosystem.living.add(cell),
   dead: ecosystem.dead
 })
+
+export const emptyEcosystem = (): Ecosystem => ({
+  living: Set<Cell>(),
+  dead: Set<Cell>()
+})
