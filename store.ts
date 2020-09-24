@@ -2,8 +2,8 @@ import { configureStore, createReducer, createSlice, combineReducers } from '@re
 import { Ecosystem } from './types'
 import { nextGeneration, seedEcosystem, emptyEcosystem } from './game'
 
-interface RootState {
-  ecosystem: EcosystemState
+export interface RootState {
+  main: EcosystemState
 }
 
 interface EcosystemState {
@@ -26,9 +26,6 @@ const slice = createSlice({
 
 export const {evolve} = slice.actions
 
-const rootReducer = combineReducers({ecosystem: slice.reducer})
-
-const livingSelector = (state: RootState) => state.ecosystem.ecosystem.living
-
+const rootReducer = combineReducers({main: slice.reducer})
 
 export const store = configureStore({reducer: rootReducer})

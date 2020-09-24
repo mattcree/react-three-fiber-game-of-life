@@ -51,7 +51,7 @@ const seedRow = (row: number, width: number, initial: Ecosystem) => {
   }, initial)
 }
 
-const emptyEcosystem = (): Ecosystem => ({
+export const emptyEcosystem = (): Ecosystem => ({
   living: Set<Cell>(),
   dead: Set<Cell>()
 })
