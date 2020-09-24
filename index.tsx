@@ -3,6 +3,9 @@ import React from 'react'
 import App from "./App"
 import {store, evolve} from './store'
 
-store.dispatch(evolve())
+setInterval(() => {
+  console.log("Running evolution")
+  store.dispatch(evolve())
+}, 1000)
 
 render(<App/>, document.getElementById('root'));

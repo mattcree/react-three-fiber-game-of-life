@@ -1,8 +1,9 @@
 import {Set} from "immutable";
 import {Cell, Ecosystem} from "./types"
+import {time} from "./utils"
 
 export const nextGeneration = (ecosystem: Ecosystem): Ecosystem => {
-  return ecosystem.living.union(ecosystem.dead).reduce((acc, cell) => fateOfCell(cell, ecosystem, acc), emptyEcosystem())
+  return time(() => ecosystem.living.union(ecosystem.dead).reduce((acc, cell) => fateOfCell(cell, ecosystem, acc), emptyEcosystem()))
 }
 
 const fateOfCell = (cell: Cell, ecosystem: Ecosystem, nextEcosystem: Ecosystem): Ecosystem => {

@@ -1,4 +1,4 @@
-import { configureStore, createReducer, createSlice, combineReducers } from '@reduxjs/toolkit'
+import { configureStore, createSlice, combineReducers } from '@reduxjs/toolkit'
 import { Ecosystem } from './types'
 import { nextGeneration, seedEcosystem, emptyEcosystem } from './game'
 
