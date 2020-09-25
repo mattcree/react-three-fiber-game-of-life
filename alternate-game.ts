@@ -1,7 +1,7 @@
 import {Set} from "immutable";
 import {time, range, isAlive} from "./utils"
 
-interface Ecosystem {
+export interface Ecosystem {
   cells: Set<Cell>
 }
 

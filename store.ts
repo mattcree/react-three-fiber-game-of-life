@@ -1,7 +1,5 @@
 import {configureStore, createSlice, combineReducers} from '@reduxjs/toolkit'
-import {Ecosystem} from './types'
-import {nextGeneration} from './set-game'
-import {seedEcosystem, emptyEcosystem} from './set-game'
+import {Ecosystem, nextGeneration, seedEcosystem, emptyEcosystem} from './alternate-game'
 
 export interface RootState {
   main: EcosystemState
@@ -20,7 +18,7 @@ const slice = createSlice({
   initialState: initialState,
   reducers: {
     evolve: (state: EcosystemState) => ({
-      ecosystem: state.ecosystem.living.isEmpty() ? seedEcosystem(40, 40) : nextGeneration(state.ecosystem)
+      ecosystem: state.ecosystem.cells.isEmpty() ? seedEcosystem(40, 40) : nextGeneration(state.ecosystem)
     })
   }
 })

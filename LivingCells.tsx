@@ -1,5 +1,5 @@
 import React from 'react'
-import {Cell} from './types'
+import {Cell} from './set-game'
 import LivingCell from './LivingCell'
 import {RootState} from './store'
 import {connect, MapStateToProps} from 'react-redux'
