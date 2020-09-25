@@ -60,11 +60,11 @@ const overcrowded = (cell: Cell, neighbours: Set<Cell>, ecosystem: Ecosystem) =>
 const isolated = (cell: Cell, neighbours: Set<Cell>, ecosystem: Ecosystem) => cell.alive && neighbours.size < 2
 
 const die = (cell: Cell, ecosystem: Ecosystem): Ecosystem => ({
-  cells: ecosystem.cells.add(cell)
+  cells: ecosystem.cells.add(new Cell(cell.x, cell.y, false))
 })
 
 const live = (cell: Cell, ecosystem: Ecosystem): Ecosystem => ({
-  cells: ecosystem.cells.add(cell)
+  cells: ecosystem.cells.add(new Cell(cell.x, cell.y, true))
 })
 
 export const emptyEcosystem = (): Ecosystem => ({
