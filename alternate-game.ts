@@ -1,10 +1,6 @@
 import {Set} from "immutable";
 import {time, range, isAlive} from "./utils"
 
-export interface Ecosystem {
-  cells: Set<Cell>
-}
-
 export class Cell {
   constructor(public x: number, public y: number, public alive: boolean) {}
   
@@ -31,50 +27,42 @@ export class Cell {
   }
 }
 
-export const nextGeneration = (ecosystem: Ecosystem): Ecosystem => {
-  return time(() => ecosystem.cells.reduce((acc, cell) => fateOfCell(cell, ecosystem, acc), emptyEcosystem()))
+export const nextGeneration = (ecosystem: Set<Cell>): Set<Cell> => {
+  return time(() => ecosystem.reduce((acc, cell) => fateOfCell(cell, ecosystem, acc), emptyEcosystem()))
 }
 
-const fateOfCell = (cell: Cell, ecosystem: Ecosystem, nextEcosystem: Ecosystem): Ecosystem => {
-  const livingNeighbours = ecosystem.cells.intersect(cell.neighbours())
+const fateOfCell = (cell: Cell, ecosystem: Set<Cell>, nextEcosystem: Set<Cell>): Set<Cell> => {
+  const livingNeighbours = ecosystem.intersect(cell.neighbours())
   
-  if (timetoLive(cell, livingNeighbours, ecosystem)) return live(cell, nextEcosystem)
-  if (timeToDie(cell, livingNeighbours, ecosystem)) return die(cell, nextEcosystem)
+  if (timetoLive(cell, livingNeighbours)) return live(cell, nextEcosystem)
+  if (timeToDie(cell, livingNeighbours)) return die(cell, nextEcosystem)
   
-  return statusQuo(cell, ecosystem, nextEcosystem)
+  return statusQuo(cell, nextEcosystem)
 }
 
-const timetoLive = (cell: Cell, neighbours: Set<Cell>, ecosystem: Ecosystem): boolean => {
+const timetoLive = (cell: Cell, neighbours: Set<Cell>): boolean => {
   return !cell.alive && neighbours.size === 3
 }
 
-const timeToDie = (cell: Cell, neighbours: Set<Cell>, ecosystem: Ecosystem): boolean => {
-  return overcrowded(cell, neighbours, ecosystem) || isolated(cell, neighbours, ecosystem)
+const timeToDie = (cell: Cell, neighbours: Set<Cell>): boolean => {
+  return overcrowded(cell, neighbours) || isolated(cell, neighbours)
 }
 
-const statusQuo = (cell: Cell, ecosystem: Ecosystem, nextEcosystem: Ecosystem): Ecosystem => {
+const statusQuo = (cell: Cell, nextEcosystem: Set<Cell>):  Set<Cell> => {
   return cell.alive ? live(cell, nextEcosystem) : die(cell, nextEcosystem)
 }
 
-const overcrowded = (cell: Cell, neighbours: Set<Cell>, ecosystem: Ecosystem) => cell.alive && neighbours.size > 3
-const isolated = (cell: Cell, neighbours: Set<Cell>, ecosystem: Ecosystem) => cell.alive && neighbours.size < 2
+const overcrowded = (cell: Cell, neighbours: Set<Cell>) => cell.alive && neighbours.size > 3
+const isolated = (cell: Cell, neighbours: Set<Cell>) => cell.alive && neighbours.size < 2
 
-const die = (cell: Cell, ecosystem: Ecosystem): Ecosystem => ({
-  cells: ecosystem.cells.add(new Cell(cell.x, cell.y, false))
-})
+const die = (cell: Cell, ecosystem: Set<Cell>): Set<Cell> => ecosystem.add(new Cell(cell.x, cell.y, false));
 
-const live = (cell: Cell, ecosystem: Ecosystem): Ecosystem => ({
-  cells: ecosystem.cells.add(new Cell(cell.x, cell.y, true))
-})
+const live = (cell: Cell, ecosystem: Set<Cell>): Set<Cell> => ecosystem.add(new Cell(cell.x, cell.y, true));
 
-export const emptyEcosystem = (): Ecosystem => ({
-  cells: Set<Cell>()
-})
+export const emptyEcosystem = (): Set<Cell> => Set<Cell>();
 
-export const seedEcosystem = (width: number, height: number): Ecosystem => range(height).reduce((acc, _, index) => seedRow(index, width, acc), emptyEcosystem())
+export const seedEcosystem = (width: number, height: number): Set<Cell> => range(height).reduce((acc, _, index) => seedRow(index, width, acc), emptyEcosystem())
 
-const seedRow = (row: number, width: number, initial: Ecosystem) => {
-  return range(width).reduce((acc, _, index) => ({
-    cells: initial.cells.add(new Cell(row, index, isAlive()))
-  }), initial)
+const seedRow = (row: number, width: number, initial: Set<Cell>) => {
+  return range(width).reduce((acc, _, index) => initial.add(new Cell(row, index, isAlive())), initial)
 }

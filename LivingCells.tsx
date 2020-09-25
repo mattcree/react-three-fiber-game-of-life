@@ -3,9 +3,10 @@ import {Cell} from './set-game'
 import LivingCell from './LivingCell'
 import {RootState} from './store'
 import {connect, MapStateToProps} from 'react-redux'
+import {Set} from 'immutable'
 
 interface StateProps {
-  living: Array<Cell>
+  living: Set<Cell>
 }
 
 const LivingCells: React.FC<StateProps> = ({living}) => {
@@ -15,7 +16,7 @@ const LivingCells: React.FC<StateProps> = ({living}) => {
 }
 
 const mapState: MapStateToProps<StateProps, {}, RootState> = state => ({
-  living: state.main.ecosystem.living.toArray()
+  living: state.main.ecosystem.cells
 })
 
 export default connect(mapState)(LivingCells);

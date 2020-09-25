@@ -1,16 +1,17 @@
 import {configureStore, createSlice, combineReducers} from '@reduxjs/toolkit'
-import {Ecosystem, nextGeneration, seedEcosystem, emptyEcosystem} from './alternate-game'
+import {Cell, nextGeneration, seedEcosystem, emptyEcosystem} from './alternate-game'
+import {Set} from 'immutable'
 
 export interface RootState {
   main: EcosystemState
 }
 
 interface EcosystemState {
-  ecosystem: Ecosystem
+  cells: Set<Cell>
 }
 
 const initialState: EcosystemState = {
-  ecosystem: emptyEcosystem()
+  cells: emptyEcosystem()
 }
 
 const slice = createSlice({
@@ -18,7 +19,7 @@ const slice = createSlice({
   initialState: initialState,
   reducers: {
     evolve: (state: EcosystemState) => ({
-      ecosystem: state.ecosystem.cells.isEmpty() ? seedEcosystem(40, 40) : nextGeneration(state.ecosystem)
+      cells: state.cells.isEmpty() ? seedEcosystem(40, 40) : nextGeneration(state.cells)
     })
   }
 })
