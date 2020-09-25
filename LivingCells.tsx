@@ -1,5 +1,5 @@
 import React from 'react'
-import {Cell} from './set-game'
+import {Cell} from './alternate-game'
 import LivingCell from './LivingCell'
 import {RootState} from './store'
 import {connect, MapStateToProps} from 'react-redux'
@@ -16,7 +16,7 @@ const LivingCells: React.FC<StateProps> = ({living}) => {
 }
 
 const mapState: MapStateToProps<StateProps, {}, RootState> = state => ({
-  living: state.main.ecosystem.cells
+  living: state.main.cells.filter(it => it.alive).toSet()
 })
 
 export default connect(mapState)(LivingCells);
