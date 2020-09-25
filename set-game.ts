@@ -1,6 +1,6 @@
 import {Set} from "immutable";
 import {Cell, Ecosystem} from "./types"
-import {time} from "./utils"
+import {time, range, isAlive} from "./utils"
 
 export const nextGeneration = (ecosystem: Ecosystem): Ecosystem => {
   return time(() => ecosystem.living.union(ecosystem.dead).reduce((acc, cell) => fateOfCell(cell, ecosystem, acc), emptyEcosystem()))
@@ -56,5 +56,3 @@ const seedRow = (row: number, width: number, initial: Ecosystem) => {
     }
   }, initial)
 }
-const isAlive = () => Math.round(Math.random()) === 1
-const range = (width: number): number[] => Array(width).fill(null)
